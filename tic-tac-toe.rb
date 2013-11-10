@@ -1,3 +1,5 @@
+require_relative "win_criteria"
+
 class TicTacToe
 	def initialize
 		@spots = [
@@ -7,6 +9,7 @@ class TicTacToe
 				 ]
 		@turns = 0
 		@game_over = false
+		@criteria = WinCriteria.new(@spots)
 	end
 
 	def play
@@ -15,14 +18,13 @@ class TicTacToe
 		create_board
 		get_move
 
-		while @game_over == false
+		while !@criteria.x_wins || !@criteria.o_wins
+			require 'pry'; binding.pry
 			if move_valid?
-				if x_wins
+				if @criteria.x_wins
 					puts "Player 1 wins, good job winner!"
-					game_over
-				elsif o_wins
+				elsif @criteria.o_wins
 					puts "Player 2 wins, good job winner!"
-					game_over
 				elsif @turns == 8
 					puts "It was a tie. Get better at tic-tac-toe losers."
 					game_over
@@ -57,7 +59,6 @@ class TicTacToe
 	end
 
 	def create_board
-
 		puts "\n--------------"
 		for index in 0..2
 			puts row_spots[index].join("  |  ")
@@ -75,7 +76,7 @@ class TicTacToe
 	end
 
 	def move_valid?
-		@spots.include? "#{@move}"
+		@spots.include? @move.to_s
 	end
 
 	def player_turn?
@@ -83,90 +84,19 @@ class TicTacToe
 	end
 
 	def x_play
-		@spots.map! { |e| e == "#{@move}" ? "X" : e }
+		@spots.map! { |e| e == @move.to_s ? "X" : e }
 	end
 
 	def o_play
-		@spots.map! { |e| e == "#{@move}" ? "O" : e }
+		@spots.map! { |e| e == @move.to_s ? "O" : e }
 	end
 
 	def not_valid
 		puts "This is not an available move, please make another selection"
 	end
 
-	def x_wins
-		x_row_1 || x_row_2 || x_row_3 || x_column_1 || x_column_2 || x_column_3 || x_diagnol_1 || x_diagnol_2
-	end
-
-	def o_wins
-		o_row_1 || o_row_2 || o_row_3 || o_column_1 || o_column_2 || o_column_3 || o_diagnol_1 || o_diagnol_2
-	end
-
-	def x_row_1
-		(@spots[0] == "X") && (@spots[1] == "X") && (@spots[2] == "X")
-	end
-
-	def x_row_2
-		(@spots[3] == "X") && (@spots[4] == "X") && (@spots[5] == "X")
-	end
-
-	def x_row_3
-		(@spots[6] == "X") && (@spots[7] == "X") && (@spots[8] == "X")
-	end
-
-	def x_column_1
-		(@spots[0] == "X") && (@spots[3] == "X") && (@spots[6] == "X")
-	end
-
-	def x_column_2
-		(@spots[1] == "X") && (@spots[4] == "X") && (@spots[7] == "X")
-	end
-
-	def x_column_3
-		(@spots[2] == "X") && (@spots[5] == "X") && (@spots[8] == "X")
-	end
-
-	def x_diagnol_1
-		(@spots[0] == "X") && (@spots[4] == "X") && (@spots[8] == "X")
-	end
-
-	def x_diagnol_2
-		(@spots[2] == "X") && (@spots[4] == "X") && (@spots[6] == "X")
-	end
-
-	def o_row_1
-		(@spots[0] == "O") && (@spots[1] == "O") && (@spots[2] == "O")
-	end
-
-	def o_row_2
-		(@spots[3] == "O") && (@spots[4] == "O") && (@spots[5] == "O")
-	end
-
-	def o_row_3
-		(@spots[6] == "O") && (@spots[7] == "O") && (@spots[8] == "O")
-	end
-
-	def o_column_1
-		(@spots[0] == "O") && (@spots[3] == "O") && (@spots[6] == "O")
-	end
-
-	def o_column_2
-		(@spots[1] == "O") && (@spots[4] == "O") && (@spots[7] == "O")
-	end
-
-	def o_column_3
-		(@spots[2] == "O") && (@spots[5] == "O") && (@spots[8] == "O")
-	end
-
-	def o_diagnol_1
-		(@spots[0] == "O") && (@spots[4] == "O") && (@spots[8] == "O")
-	end
-
-	def o_diagnol_2
-		(@spots[2] == "O") && (@spots[4] == "O") && (@spots[6] == "O")
-	end
-
 
 end
+
 
 TicTacToe.new.play
