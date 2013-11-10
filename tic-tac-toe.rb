@@ -18,22 +18,35 @@ class TicTacToe
 		create_board
 		get_move
 
-		while !@criteria.x_wins || !@criteria.o_wins
-			require 'pry'; binding.pry
+		while @game_over == false
 			if move_valid?
 				if @criteria.x_wins
 					puts "Player 1 wins, good job winner!"
+					game_over
 				elsif @criteria.o_wins
 					puts "Player 2 wins, good job winner!"
+					game_over
 				elsif @turns == 8
 					puts "It was a tie. Get better at tic-tac-toe losers."
 					game_over
 				elsif player_turn?
 					x_play
-					post_play
+					if !@criteria.x_wins
+						post_play
+					else
+						create_board
+						puts "Player 1 wins, good job winner!"
+						game_over
+					end
 				else
 					o_play
-					post_play
+					if !@criteria.o_wins
+						post_play
+					else
+						create_board
+						puts "Player 2 wins, good job winner!"
+						game_over
+					end
 				end
 			else
 				not_valid
