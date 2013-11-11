@@ -15,7 +15,7 @@ To play, run
 
 ```console
 cd tic-tac-toe
-ruby tic-tac-toe.rb
+ruby tic_tac_toe.rb
 ```
 
 
