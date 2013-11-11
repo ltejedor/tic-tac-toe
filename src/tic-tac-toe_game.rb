@@ -2,11 +2,7 @@ require_relative "win_criteria"
 
 class TicTacToe
 	def initialize
-		@spots = [
-					"1", "2", "3",
-					"4", "5", "6",
-					"7", "8", "9"
-				 ]
+		@spots = [*1..9].map &:to_s
 		@turns = 0
 		@game_over = false
 		@criteria = WinCriteria.new(@spots)
@@ -18,7 +14,7 @@ class TicTacToe
 		create_board
 		get_move
 
-		while @game_over == false
+		until @game_over
 			if move_valid?
 				if @criteria.x_wins
 					puts "Player 1 wins, good job winner!"
@@ -110,6 +106,3 @@ class TicTacToe
 
 
 end
-
-
-TicTacToe.new.play
