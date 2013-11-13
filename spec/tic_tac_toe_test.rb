@@ -1,4 +1,4 @@
-require_relative './win_criteria'
+require_relative '../src/win_criteria'
 require 'minitest/autorun'
 
 class TicTacToeTest < Minitest::Unit::TestCase
